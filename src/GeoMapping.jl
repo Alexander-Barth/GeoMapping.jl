@@ -3,6 +3,8 @@ module GeoMapping
 export distance, azimuth, reckon
 
 """
+    d = distance(lat1,lon1,lat2,lon2)
+
 Compute the great-circle distance between the points (`lat1,`lon1`) and (`lat2,`lon2`).
 The units of all input and output parameters are degrees.
 """
@@ -13,11 +15,17 @@ function distance(lat1,lon1,lat2,lon2)
     ϕ1 = π/180 * lat1
     ϕ2 = π/180 * lat2
 
-    Δσ = acos(sin(ϕ1)*sin(ϕ2) + cos(ϕ1)*cos(ϕ2)*cos(Δλ))
-    return 180/π * Δσ 
+    cosΔσ = sin(ϕ1)*sin(ϕ2) + cos(ϕ1)*cos(ϕ2)*cos(Δλ)
+
+    eins = one(cosΔσ)
+    cosΔσ = max(min(cosΔσ,eins),-eins)
+    Δσ = acos(cosΔσ)
+    return 180/π * Δσ
 end    
 
 """
+    az = azimuth(lat1,lon1,lat2,lon2)
+
 Compute azimuth, i.e. the angle between the line segment defined by the points (`lat1,`lon1`) and (`lat2,`lon2`) 
 and the North.
 The units of all input and output parameters are degrees.
@@ -38,6 +46,8 @@ end
 # relicenced to LGPL-v3
 
 """
+    lato,lono = reckon(lat,lon,range,azimuth)
+
 Compute the coordinates of the end-point of a displacement on a 
 sphere. `lat`,`lon` are the coordinates of the starting point, `range` 
 is the covered distance of the displacements along a great circle and
@@ -56,18 +66,24 @@ function reckon(lat,lon,range,azimuth)
     range = range*d
     azimuth = azimuth*d
 
-    lato = pi/2 - acos(sin(lat).*cos(range) + cos(lat).*sin(range).*cos(azimuth))
+    tmp = sin.(lat).*cos.(range) + cos.(lat).*sin.(range).*cos.(azimuth)
 
-    cos_gamma = (cos(range) - sin(lato).*sin(lat))./(cos(lato).*cos(lat))
-    sin_gamma = sin(azimuth).*sin(range)./cos(lato)
+    # clip tmp to -1 and 1
+    eins = one(eltype(tmp))
+    tmp = max.(min.(tmp,eins),-eins)
+    
+    lato = pi/2 - acos.(tmp)
 
-    gamma = atan2(sin_gamma,cos_gamma)
+    cos_gamma = (cos.(range) - sin.(lato).*sin.(lat))./(cos.(lato).*cos.(lat))
+    sin_gamma = sin.(azimuth).*sin.(range)./cos.(lato)
+
+    gamma = atan2.(sin_gamma,cos_gamma)
 
     lono = lon + gamma
 
     # bring the lono in the interval [-pi pi[
 
-    lono = mod(lono+pi,2*pi)-pi
+    lono = mod.(lono+pi,2*pi)-pi
     
     # convert to degrees
 
