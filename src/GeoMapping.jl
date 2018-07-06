@@ -37,7 +37,7 @@ function azimuth(lat1,lon1,lat2,lon2)
     ϕ1 = π/180 * lat1
     ϕ2 = π/180 * lat2
 
-    α = atan2(sin(Δλ), cos(ϕ1)*tan(ϕ2) - sin(ϕ1)*cos(Δλ))
+    α = atan(sin(Δλ), cos(ϕ1)*tan(ϕ2) - sin(ϕ1)*cos(Δλ))
     return 180/π * α 
 end
 
@@ -72,18 +72,18 @@ function reckon(lat,lon,range,azimuth)
     eins = one(eltype(tmp))
     tmp = max.(min.(tmp,eins),-eins)
     
-    lato = pi/2 - acos.(tmp)
+    lato = pi/2 .- acos.(tmp)
 
     cos_gamma = (cos.(range) - sin.(lato).*sin.(lat))./(cos.(lato).*cos.(lat))
     sin_gamma = sin.(azimuth).*sin.(range)./cos.(lato)
 
-    gamma = atan2.(sin_gamma,cos_gamma)
+    gamma = atan.(sin_gamma,cos_gamma)
 
-    lono = lon + gamma
+    lono = lon .+ gamma
 
     # bring the lono in the interval [-pi pi[
 
-    lono = mod.(lono+pi,2*pi)-pi
+    lono = mod.(lono .+ pi,2*pi) .- pi
     
     # convert to degrees
 

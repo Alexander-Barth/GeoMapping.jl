@@ -1,5 +1,10 @@
 using GeoMapping
-using Base.Test
+
+if VERSION >= v"0.7.0-beta.0"
+    using Test
+else
+    using Base.Test
+end
 
 @test azimuth(0,0,1,0) ≈ 0;
 @test azimuth(0,0,0,1) ≈ 90;
