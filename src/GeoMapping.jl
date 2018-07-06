@@ -1,5 +1,9 @@
 module GeoMapping
 
+if VERSION < v"0.7.0-beta.0"
+    using Compat
+end
+
 export distance, azimuth, reckon
 
 """
