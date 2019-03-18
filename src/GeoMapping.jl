@@ -25,12 +25,12 @@ function distance(lat1,lon1,lat2,lon2)
     cosΔσ = max(min(cosΔσ,eins),-eins)
     Δσ = acos(cosΔσ)
     return 180/π * Δσ
-end    
+end
 
 """
     az = azimuth(lat1,lon1,lat2,lon2)
 
-Compute azimuth, i.e. the angle between the line segment defined by the points (`lat1,`lon1`) and (`lat2,`lon2`) 
+Compute azimuth, i.e. the angle between the line segment defined by the points (`lat1,`lon1`) and (`lat2,`lon2`)
 and the North.
 The units of all input and output parameters are degrees.
 """
@@ -42,7 +42,7 @@ function azimuth(lat1,lon1,lat2,lon2)
     ϕ2 = π/180 * lat2
 
     α = atan(sin(Δλ), cos(ϕ1)*tan(ϕ2) - sin(ϕ1)*cos(Δλ))
-    return 180/π * α 
+    return 180/π * α
 end
 
 # Base on reckon from myself
@@ -52,8 +52,8 @@ end
 """
     lato,lono = reckon(lat,lon,range,azimuth)
 
-Compute the coordinates of the end-point of a displacement on a 
-sphere. `lat`,`lon` are the coordinates of the starting point, `range` 
+Compute the coordinates of the end-point of a displacement on a
+sphere. `lat`,`lon` are the coordinates of the starting point, `range`
 is the covered distance of the displacements along a great circle and
 `azimuth` is the direction of the displacement relative to the North.
 The units of all input and output parameters are degrees.
@@ -75,7 +75,7 @@ function reckon(lat,lon,range,azimuth)
     # clip tmp to -1 and 1
     eins = one(eltype(tmp))
     tmp = max.(min.(tmp,eins),-eins)
-    
+
     lato = pi/2 .- acos.(tmp)
 
     cos_gamma = (cos.(range) - sin.(lato).*sin.(lat))./(cos.(lato).*cos.(lat))
@@ -88,7 +88,7 @@ function reckon(lat,lon,range,azimuth)
     # bring the lono in the interval [-pi pi[
 
     lono = mod.(lono .+ pi,2*pi) .- pi
-    
+
     # convert to degrees
 
     lono = lono/d
@@ -100,4 +100,4 @@ end
 
 
 
-end 
+end
