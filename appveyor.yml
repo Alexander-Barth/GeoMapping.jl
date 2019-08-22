@@ -1,9 +1,8 @@
 environment:
   matrix:
-  - julia_version: 0.6
-  - julia_version: 0.7
   - julia_version: 1.0
-  - julia_version: nightly
+  - julia_version: 1.2
+  - julia_version: 1.3
 
 platform:
   - x86 # 32-bit
@@ -13,7 +12,12 @@ platform:
 # (tests will run but not make your overall status red)
 matrix:
   allow_failures:
-  - julia_version: nightly
+  - julia_version: 1.3
+
+branches:
+  only:
+    - master
+    - /release-.*/
 
 notifications:
   - provider: Email
