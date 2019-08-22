@@ -9,7 +9,7 @@ export distance, azimuth, reckon
 """
     d = distance(lat1,lon1,lat2,lon2)
 
-Compute the great-circle distance between the points (`lat1,`lon1`) and (`lat2,`lon2`).
+Compute the great-circle distance between the points (`lat1`,`lon1`) and (`lat2`,`lon2`).
 The units of all input and output parameters are degrees.
 """
 function distance(lat1,lon1,lat2,lon2)
@@ -30,7 +30,7 @@ end
 """
     az = azimuth(lat1,lon1,lat2,lon2)
 
-Compute azimuth, i.e. the angle between the line segment defined by the points (`lat1,`lon1`) and (`lat2,`lon2`)
+Compute azimuth, i.e. the angle between the line segment defined by the points (`lat1`,`lon1`) and (`lat2`,`lon2`)
 and the North.
 The units of all input and output parameters are degrees.
 """
