@@ -1,9 +1,5 @@
 module GeoMapping
 
-if VERSION < v"0.7.0-beta.0"
-    using Compat
-end
-
 export distance, azimuth, reckon
 
 """
@@ -63,12 +59,12 @@ with rotated poles.
 function reckon(lat,lon,range,azimuth)
 
     # convert to radian
-    d = π/180
+    rad2deg = π/180
 
-    lat = lat*d
-    lon = lon*d
-    range = range*d
-    azimuth = azimuth*d
+    lat = lat*rad2deg
+    lon = lon*rad2deg
+    range = range*rad2deg
+    azimuth = azimuth*rad2deg
 
     tmp = sin.(lat).*cos.(range) + cos.(lat).*sin.(range).*cos.(azimuth)
 
@@ -76,23 +72,23 @@ function reckon(lat,lon,range,azimuth)
     eins = one(eltype(tmp))
     tmp = max.(min.(tmp,eins),-eins)
 
-    lato = pi/2 .- acos.(tmp)
+    lato = π/2 .- acos.(tmp)
 
-    cos_gamma = (cos.(range) - sin.(lato).*sin.(lat))./(cos.(lato).*cos.(lat))
-    sin_gamma = sin.(azimuth).*sin.(range)./cos.(lato)
+    cos_γ = (cos.(range) - sin.(lato).*sin.(lat))./(cos.(lato).*cos.(lat))
+    sin_γ = sin.(azimuth).*sin.(range)./cos.(lato)
 
-    gamma = atan.(sin_gamma,cos_gamma)
+    γ = atan.(sin_γ,cos_γ)
 
-    lono = lon .+ gamma
+    lono = lon .+ γ
 
-    # bring the lono in the interval [-pi pi[
+    # bring the lono in the interval [-π π[
 
-    lono = mod.(lono .+ pi,2*pi) .- pi
+    lono = mod.(lono .+ π,2*π) .- π
 
     # convert to degrees
 
-    lono = lono/d
-    lato = lato/d
+    lono = lono/rad2deg
+    lato = lato/rad2deg
 
     return lato,lono
 end
