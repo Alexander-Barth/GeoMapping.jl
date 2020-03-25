@@ -2,9 +2,7 @@ name = "GeoMapping"
 uuid = "855c05df-eed8-5362-a099-6b509f53b81a"
 
 [deps]
-Compat = "34da2185-b29b-5c13-b0c7-acf172513d20"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
-Compat = "3"
 julia = "1"
