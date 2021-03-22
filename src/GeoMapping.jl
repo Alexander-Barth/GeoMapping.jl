@@ -7,6 +7,13 @@ export distance, azimuth, reckon
 
 Compute the great-circle distance between the points (`lat1`,`lon1`) and (`lat2`,`lon2`).
 The units of all input and output parameters are degrees.
+
+```math
+d = \\arccos( \\sin\\phi_1\\cdot\\sin\\phi_2 + \\cos\\phi_1\\cdot\\cos\\phi_2\\cdot\\cos(\\Delta\\lambda))
+```
+
+where ``\\phi_{1},\\lambda_{1}`` and ``\\phi_{2},\\lambda_{2}`` are the geographical
+latitude and longitude of two points 1 and 2 and ``\\Delta\\lambda = \\lambda_{2} - \\lambda_{1}``.
 """
 function distance(lat1,lon1,lat2,lon2)
     #https://en.wikipedia.org/w/index.php?title=Great-circle_distance&oldid=749078136#Computational_formulas
