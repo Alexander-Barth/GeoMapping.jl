@@ -33,9 +33,20 @@ end
 """
     az = azimuth(lat1,lon1,lat2,lon2)
 
-Compute azimuth, i.e. the angle between the line segment defined by the points (`lat1`,`lon1`) and (`lat2`,`lon2`)
-and the North.
+Compute azimuth, i.e. the angle at (`lat1`,`lon1`) between the point (`lat2`,`lon2`) and the North, counted clockwise starting from the North.
 The units of all input and output parameters are degrees.
+
+```
+          North
+            ↑
+            | .
+            |   . az
+(lat1,lon1) +   .
+             ╲ ↙
+              ╲
+               ╲
+                * (lat2,lon2)
+```
 """
 function azimuth(lat1,lon1,lat2,lon2)
     # https://en.wikipedia.org/w/index.php?title=Azimuth&oldid=750059816#Calculating_azimuth
