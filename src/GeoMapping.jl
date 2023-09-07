@@ -18,6 +18,7 @@ latitude and longitude of two points 1 and 2 and ``\\Delta\\lambda = \\lambda_{2
 function distance(lat1,lon1,lat2,lon2)
     #https://en.wikipedia.org/w/index.php?title=Great-circle_distance&oldid=749078136#Computational_formulas
 
+    # could use cosd/sind...
     Δλ = π/180 * (lon2 - lon1)
     ϕ1 = π/180 * lat1
     ϕ2 = π/180 * lat2
@@ -61,7 +62,7 @@ end
 
 # Base on reckon from myself
 # https://sourceforge.net/p/octave/mapping/ci/3f19801d4b93d3b3923df9fa62d268660e5cb4fa/tree/inst/reckon.m
-# relicenced to LGPL-v3
+# relicenced to MIT
 
 """
     lato,lono = reckon(lat,lon,range,azimuth)
