@@ -6,6 +6,6 @@
 
 
 GeoMapping provides the following functions:
-* `distance`
-* `azimuth`
-* `reckon`
+* `distance`:  great-circle distance 
+* `azimuth`: compute angles 
+* `reckon`: compute distance from a starting point and angle
